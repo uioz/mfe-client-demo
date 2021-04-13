@@ -6,6 +6,9 @@ interface ProjectConfig {
     usePackageNameAsStaticPrefix:boolean;
     // 需要代理的远程项目地址
     // 例如 ['app1@http://localhost:3000','app2@http://localhost:3001']
+    // app1@http://localhost:3000/xxxx/route.json 如果给定路径以 json 结尾 
+    // app1@http://localhost:3000/xxxx/index.json 读取将该 json 作为配置读取
+    // app1@http://localhost:3000/xxxx 且所有的请求会转发到 /xxxx 下
     // 如果它们的路由重复, 越靠前的优先级越高, 当前项目路由的优先级最高
     appThatneededProxy:Array<string>;
 }
@@ -31,3 +34,5 @@ interface routeJson {
 3. SSR support
 4. friendly API
 5. Don't send data when status code is 304 (consider using library instead by hand)
+6. local first
+7. http config support
