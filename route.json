@@ -1,4 +1,4 @@
 {
-  "domain": ["/", "/home"],
+  "domain": ["/*", "/home*"],
   "rewrites": []
 }

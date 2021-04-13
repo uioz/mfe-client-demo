@@ -8,13 +8,23 @@ const publicPath = "/";
 let manifest = undefined;
 let appNameMap = new Map();
 
-function staticMiddleware(request, response) {
+function staticMiddleware(request, response, next) {
   const appName = request.params.appName;
 
   if (appNameMap.has(appName)) {
-    const { appUrl } = manifest[appNameMap.get(appName)];
-
-    // TODO: GOT streaming response
+    const { appHost } = manifest[appNameMap.get(appName)];
+    // TODO: use streaming API instead
+    got
+      .get(`${appHost}${request.url}`, {
+        headers: request.headers,
+        responseType: "buffer",
+      })
+      .then((res) => {
+        response.status(res.statusCode).set(res.headers).send(res.rawBody);
+      })
+      .catch(() => response.end("proxy error!"));
+  } else {
+    return next();
   }
 }
 
@@ -27,15 +37,15 @@ module.exports = async function dealWithServer() {
 
     for (const appBaseInfo of config.appThatNeededProxy) {
       // TODO: 需要改用正则匹配, 因为项目名称和对应的地址都可能含有 @, 直接从 webpack 里取逻辑即可
-      const [appName, appUrl] = appBaseInfo.split("@");
+      const [appName, appHost] = appBaseInfo.split("@");
 
       appNameMap.set(
         appName,
         queue.push({
           appName,
-          appUrl,
+          appHost,
           appDomain: (async () => {
-            const { body } = await got.get(appUrl + "/route.json", {
+            const { body } = await got.get(appHost + "/route.json", {
               responseType: "json",
             });
 
@@ -56,20 +66,30 @@ module.exports = async function dealWithServer() {
     }
 
     manifest = queue;
-    debugger
   }
 
   return {
     before(app) {
       if (manifest) {
         // host static
-        app.get("/static/:appName", staticMiddleware);
+        app.get("/static/:appName*", staticMiddleware);
 
         for (const appBaseInfo of manifest) {
-          for (const regexp of appBaseInfo.appDomain) {
-            app.get(regexp, (request, response) => {
-              // TODO: GOT streaming response
-              // got.get(`${appBaseInfo.appUrl}/${request.url}`);
+          for (const pathPattern of appBaseInfo.appDomain) {
+            app.get(pathPattern, (request, response) => {
+              // TODO: use streaming API instead
+              got
+                .get(`${appBaseInfo.appHost}${request.url}`, {
+                  headers: request.headers,
+                  responseType: "buffer",
+                })
+                .then((res) => {
+                  response
+                    .status(res.statusCode)
+                    .set(res.headers)
+                    .send(res.rawBody);
+                })
+                .catch(() => response.end("proxy error!"));
             });
           }
         }
