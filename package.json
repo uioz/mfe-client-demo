@@ -1,0 +1,28 @@
+{
+  "name": "vue3-dev-prototype",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "webpack serve --mode development",
+    "build": "webpack --mode production"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@vue/compiler-sfc": "^3.0.11",
+    "css-loader": "^5.2.1",
+    "got": "^11.8.2",
+    "html-webpack-plugin": "^5.3.1",
+    "style-loader": "^2.0.0",
+    "vue-loader": "^16.2.0",
+    "webpack": "^5.31.2",
+    "webpack-cli": "^4.6.0",
+    "webpack-dev-server": "^3.11.2"
+  },
+  "dependencies": {
+    "vue": "^3.0.11",
+    "vue-router": "^4.0.6"
+  }
+}
