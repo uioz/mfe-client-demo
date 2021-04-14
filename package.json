@@ -1,6 +1,6 @@
 {
-  "name": "vue3-dev-prototype",
-  "version": "1.0.0",
+  "name": "@example/app2",
+  "version": "1.0.3",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -10,6 +10,13 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "files": [
+    "dist",
+    "static",
+    "public",
+    "route.json",
+    "mfe-config.js"
+  ],
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.11",
     "css-loader": "^5.2.1",

@@ -57,3 +57,4 @@ interface mfeProxyConfig {
 6. local first
 7. http config support
 8. use momorepo to manage packages instead of separate
+9. 移除 npm install 下载时携带的依赖
