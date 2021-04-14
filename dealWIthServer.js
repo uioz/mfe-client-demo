@@ -1,7 +1,7 @@
 const { default: got } = require("got");
 const { join } = require("path");
 const packageJson = require("./package.json");
-const config = require("./config");
+const config = require("./mfe-config");
 
 const publicPath = "/";
 
