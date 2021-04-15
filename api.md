@@ -2,6 +2,10 @@
 // 项目配置, 主要用于开发服务器和 server 使用
 // 文件名称 mfe-config.js(暂定)
 interface ProjectConfig {
+  // 打包后输出的路径, 默认 ./dist
+  outputDir?:string;
+  // 静态资源目录输出的路径, 默认 ./dist/static
+  staticDir?:string;
   // 当前项目路由配置的相对地址, 包含扩展名
   // 如果不填写则读取项目根目录的 route.json
   // eg. ./src/route.json
@@ -49,6 +53,11 @@ interface mfeProxyConfig {
 
 # TODO LIST
 
+- 查找 mfe-config.js 文件中的 dist 目录, 默认 dist
+- 查找 mfe-config.js 文件中的 static 目录, 默认 dist/static
+- 将 `router.json` 改为 `mfe-route.json`
+- 考虑将 `mfe-config.js` 与 `mfe-route.json` 进行合并
+
 1. streaming API support
 2. MPA support
 3. SSR support
@@ -58,3 +67,6 @@ interface mfeProxyConfig {
 7. http config support
 8. use momorepo to manage packages instead of separate
 9. 移除 npm install 下载时携带的依赖
+10. create 支持 git 仓库下载
+11. 添加 init 名称, 支持 install 完成后进行初始化
+12. 通过 postinstall 自行下载 static
