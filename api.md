@@ -32,31 +32,43 @@ interface routeJson {
   // 所以你需要确保所编写的路由兼容上述的两个类库
   // 幸运的是 '99%' 的匹配模式上述的两个库规则都是一致的
   // eg. /path, /path/:id/:arg, /path/*(匹配所有以/path 开头的路径)
+  // 具体的路由规则需要先于通用的匹配规则, 例如 /path/specific 要先于 /path/
   domain: Array<string>;
+  // domain 基于对象的 API
   // rewrites 支持(暂定)
 }
 
 // 由工具自动生成的应用
 interface mfeProxyConfig {
   applications: Array<{
+    // 应用程序名称(包名称)
     name: string;
+    // 所在目录
     dir: string;
+    // 路由配置文件地址
+    routePath: string;
+    // 构建后的输出路径
+    outputDir: string;
+    // 静态资源路径
+    staticDir: string
   }>;
 }
 ```
 
 # package list
 
-1. mfe-proxy-cli
-2. mfe-proxy-server
-3. mfe-proxy-middware
+1. mfe-cli
+2. mfe-server
+3. mfe-middleware
 
 # TODO LIST
 
 - 查找 mfe-config.js 文件中的 dist 目录, 默认 dist
 - 查找 mfe-config.js 文件中的 static 目录, 默认 dist/static
 - 将 `router.json` 改为 `mfe-route.json`
-- 考虑将 `mfe-config.js` 与 `mfe-route.json` 进行合并
+- 考虑将 `mfe-config.js` 与 `mfe-route.json` 进行合并 x 这样会让 `mfe-route` 无法放置到其他位置.
+- 使用 typescript 来编写 mfe-server
+- 
 
 1. streaming API support
 2. MPA support
@@ -70,3 +82,22 @@ interface mfeProxyConfig {
 10. create 支持 git 仓库下载
 11. 添加 init 名称, 支持 install 完成后进行初始化
 12. 通过 postinstall 自行下载 static
+13. debugger support
+14. 不针对 HTML 文件以外的文件进行协商缓存(配置开关)
+
+# 已知问题
+
+1. 应用程序的 /static 路径需要进行修改
+2. mfe-example 路由需要先去重, 否则会报错
+3. static 目录不应该嵌套到 dist 目录中(如果不会出现重复代理的问题)
+4. 强制使用 dist 目录进行代理, 避免泄漏项目信息
+
+
+
+1. 扫描 dist 目录下的文件(不进行递归扫描), 然后记录其对应的项目地址存入 Map 中
+   1. 当请求进入后检查 Map 如果存在则返回该项目下的文件
+   2. 然后进入路由匹配
+   3. 优势经过 Map 查询速度非常块, 缺点逻辑复杂, 容易出现问题
+2. 直接代理 dist 目录, 排除 `index.html` 和 `static` 地址
+   1. 然后进入路由匹配
+   2. 实现简单, 容错率高, 效率取决于 `fastify-static`.
