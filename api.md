@@ -68,9 +68,7 @@ interface mfeProxyConfig {
 - 将 `router.json` 改为 `mfe-route.json`
 - 考虑将 `mfe-config.js` 与 `mfe-route.json` 进行合并 x 这样会让 `mfe-route` 无法放置到其他位置.
 - 使用 typescript 来编写 mfe-server
-- 
 
-1. streaming API support
 2. MPA support
 3. SSR support
 4. friendly API
@@ -84,6 +82,10 @@ interface mfeProxyConfig {
 12. 通过 postinstall 自行下载 static
 13. debugger support
 14. 不针对 HTML 文件以外的文件进行协商缓存(配置开关)
+15. create 命令需要支持目录
+15. manifest 路径需要使用相对路径而不是绝对路径
+16. `middware` 支持无 `route.json` 模式, 在这种情况下优先匹配远程地址
+18. `cli` 需要支持增删除改查, 创建一个类来完成 npm 的封装
 
 # 已知问题
 

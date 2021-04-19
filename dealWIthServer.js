@@ -45,7 +45,7 @@ module.exports = async function dealWithServer() {
           appName,
           appHost,
           appDomain: (async () => {
-            const { body } = await got.get(appHost + "/route.json", {
+            const { body } = await got.get(appHost + "/mfe-route.json", {
               responseType: "json",
             });
 

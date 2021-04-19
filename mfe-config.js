@@ -1,8 +1,8 @@
 module.exports = {
   // 本项目的路由配置地址, 如果你没有使用默认的名称和放置到根路径
   // 则需要手动指定, 放置相对本文件路由配置文件的完整路径
-  // eg. ./src/route.json or ./src/index.json
-  routeConfigPath: "./route.json",
+  // eg. ./src/mfe-route.json or ./src/index.json
+  routeConfigPath: "./mfe-route.json",
   // 使用项目名称作为 static 目录的前缀修饰
   // 即需要请求 /static/[packageName]/xxxx.xxxx
   // 反之则使用默认值 /static/xxxx.xxx
